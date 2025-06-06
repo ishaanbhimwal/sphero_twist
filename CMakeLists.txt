@@ -24,21 +24,25 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-add_executable(traj_control_turtle_cpp src/traj_control_turtle.cpp)
+add_executable(readKeyboard src/readKeyboard.cpp)
+ament_target_dependencies(readKeyboard rclcpp geometry_msgs)
 
-ament_target_dependencies(traj_control_turtle_cpp
-  rclcpp
-  geometry_msgs
-  turtlesim
-)
+add_executable(mazerunner src/mazerunner.cpp)
+ament_target_dependencies(mazerunner rclcpp geometry_msgs)
+
+add_executable(traj_control_turtle_cpp src/traj_control_turtle.cpp)
+ament_target_dependencies(traj_control_turtle_cpp rclcpp geometry_msgs turtlesim)
 
 install(TARGETS
+  readKeyboard
+  mazerunner
   traj_control_turtle_cpp
   DESTINATION lib/${PROJECT_NAME}
 )
 
-
 install(PROGRAMS
+  scripts/twist_bolt_control.py
+  scripts/twist_bolt_teleop.py
   scripts/traj_control_turtle.py
   DESTINATION lib/${PROJECT_NAME}
 )
